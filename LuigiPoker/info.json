@@ -1,0 +1,10 @@
+{
+	"AUTHOR" : "MariotheGamer30",
+	"Short" : "A minigame from NSMB",
+    "DESCRIPTION" : "A minigame from the famous New Super Mario Brothers DS game",
+    "DISABLED" : false,
+    "NAME" : "Luigi Poker",
+    "TAGS" : ["Fun", "Poker", "Super Mario Brothers", "Luigi"],
+    "INSTALL_MSG" : "Usage: `[p]insult <user>`"
+
+}

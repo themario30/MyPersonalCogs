@@ -159,11 +159,10 @@ def flush(deck):
 ''' Below This Line is Discord Bot Time '''
 
 class Mycog:
-	prefix = '[p]'
-    """My custom cog that does stuff!"""
 
     def __init__(self, bot):
         self.bot = bot
+		self.__prefix = '[p]'
         self.__inGame = False
         self.__hit = False
         self.pDeck = Deck()
@@ -181,7 +180,7 @@ class Mycog:
             await self.bot.say("Dealer's Deck: {}{}{}{}{}".format(":white_medium_small_square:",":white_medium_small_square:",":white_medium_small_square:",
                 ":white_medium_small_square:",":white_medium_small_square:"))
             await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
-            await self.bot.say("{0}fold or {0}stay?".format(prefix)
+            await self.bot.say("{0}fold or {0}stay?".format(self.__prefix)
 	
 	@commands.command()
 	async def LuigiHelpMe(self, i):
@@ -308,7 +307,7 @@ class Mycog:
             self.__inGame = False
             self.__hit = False
         else:
-            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format(''))
+            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format(self.__prefix))
 
 
 def setup(bot):

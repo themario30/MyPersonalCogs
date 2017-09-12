@@ -171,6 +171,7 @@ class LuigiPoker:
     def __init__(self, bot):
         self.bot = bot
         self.user = ""
+        self.__prefix = "[p]"
         self.__inGame = False
         self.__hit = False
         self.pDeck = Deck()
@@ -188,6 +189,7 @@ class LuigiPoker:
         twoP =      "Two Pairs:       {}{}{}{}".format(":six:",":six:",":one:",":one:")
         oneP =      "Pair:            {}{}".format(":six:",":six:")
         await self.bot.say("{}\n{}\n{}\n{}\n{}\n{}".format(flush,fourKind,fullHouse,threeKind,twoP,oneP))
+        await self.bot.say("Are you ready to play my game?! What are you ready for? Start the game using ``{0}deck``!".format(self.__prefix))
 
     @commands.command()
     async def deck(self):
@@ -204,9 +206,9 @@ class LuigiPoker:
             ":white_medium_small_square:",":white_medium_small_square:"))
         await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
         if (self.__hit):
-            await self.bot.say("Stay or Fold?")
+            await self.bot.say("{0}stay or {0}fold?".format(self.__prefix))
         else:
-            await self.bot.say("Stay, Hit, or Fold?")
+            await self.bot.say("{0}stay, {0}hit, or {0}fold?".format(self.__prefix))
 
     @commands.command()
     async def hit(self, i):
@@ -219,12 +221,12 @@ class LuigiPoker:
                 await self.bot.say("Dealer's Deck: {}{}{}{}{}".format(":white_medium_small_square:",":white_medium_small_square:",":white_medium_small_square:",
                     ":white_medium_small_square:",":white_medium_small_square:"))
                 await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
-                await self.bot.say("Stay or Fold?")
+                await self.bot.say("{0}stay or {0}fold?".format(self.__prefix))
                 self.__hit = True
             else:
                 await self.bot.say("You've already hit this round. You must Stay or Fold.")
         else:
-            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format('!'))
+            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format(self.__prefix))
 
     @commands.command()
     async def fold(self):
@@ -235,7 +237,7 @@ class LuigiPoker:
             self.__inGame = False
             self.__hit = False
         else:
-            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format('!'))
+            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format(self.__prefix))
 
     @commands.command()
     async def stay(self):
@@ -335,7 +337,7 @@ class LuigiPoker:
             self.__inGame = False
             self.__hit = False
         else:
-            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format('!'))
+            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format(self.__prefix))
 
 
 def setup(bot):

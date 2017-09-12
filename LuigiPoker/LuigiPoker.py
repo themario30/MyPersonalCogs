@@ -182,7 +182,14 @@ class Mycog:
                 ":white_medium_small_square:",":white_medium_small_square:"))
             await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
             await self.bot.say("{0}fold or {0}stay?".format(prefix)
-
+	
+	@commands.command()
+	async def LuigiHelpMe(self, i):
+		message = "``Luigi``\n Hello! I am Luigi, Number #1! I am the Card Dealer of this minigame, and I shall be going through the instructions of this game. Unlike popular Poker, my game is more simpler.\n Below this list are the winning games and rank:"
+		winning_ranks = "test";
+		message = message + winning_ranks
+		await self.bot.say(message)
+	
     @commands.command()
     async def hit(self, i):
         '''To indicate which card/s to trade, the first card is 1, second card is 2, etc Ex: [p]hit 2,4,5'''

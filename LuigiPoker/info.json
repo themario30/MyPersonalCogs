@@ -5,6 +5,6 @@
     "DISABLED" : false,
     "NAME" : "Luigi Poker",
     "TAGS" : ["Fun", "Poker", "Super Mario Brothers", "Luigi"],
-    "INSTALL_MSG" : "Congratulations on installing this Cog. This cog will let you play Luigi Poker Minigame from the famous Nintendo DS game, ``New Super Mario Brothers.``\n\n"
+    "INSTALL_MSG" : "Congratulations on installing this Cog. This cog will let you play Luigi Poker Minigame from the famous Nintendo DS game, ``New Super Mario Brothers.``\n\n Use command ``[p]LuigiHelpMe`` to get going with the game."
 
 }

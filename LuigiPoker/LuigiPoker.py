@@ -159,7 +159,7 @@ def flush(deck):
 ''' Below This Line is Discord Bot Time '''
 
 class Mycog:
-	prefix = "[p]"
+	prefix = '[p]'
     """My custom cog that does stuff!"""
 
     def __init__(self, bot):

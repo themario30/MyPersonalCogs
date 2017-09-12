@@ -339,5 +339,5 @@ class LuigiPoker:
 
 
 def setup(bot):
-	n = LuigiPoker(bot)
+    n = LuigiPoker(bot)
     bot.add_cog(n)

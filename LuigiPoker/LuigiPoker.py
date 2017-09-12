@@ -5,8 +5,8 @@
 
 '''
 
-from random import *
 import discord
+from random import randint
 from discord.ext import commands
 
 class Card:
@@ -55,6 +55,9 @@ class Deck:
         temp = [Card() for x in range(0,self.__length)]
         return temp
 
+    def __newCard(self,i):
+        self.__deck[i] = Card()
+
     def __sortDeck(self):   #Sorts the deck
         self.__deck.sort(key=lambda x: x.num(),reverse=True)
     def newDeck(self):      #This Function should be called every new deck
@@ -68,8 +71,12 @@ class Deck:
         return self.__deck[i].num()
 
     def swap(self,i):
-        for x in i:
-            self.__deck[x - 1] = Card()
+        l = eval(i)
+        if i.isdigit():
+            self.__deck[l-1] = Card()
+        else:
+            for x in l:
+                self.__newCard(x-1)
         self.__sortDeck()
 
     def suit(self,i):
@@ -158,53 +165,66 @@ def flush(deck):
 
 ''' Below This Line is Discord Bot Time '''
 
-class Mycog:
+class LuigiPoker:
+    """My custom cog that does stuff!"""
 
     def __init__(self, bot):
         self.bot = bot
-        self.__prefix = "(p)"
+        self.user = ""
         self.__inGame = False
         self.__hit = False
         self.pDeck = Deck()
         self.dDeck = Deck()
 
     @commands.command()
+    async def LuigiHelpMe(self):
+        await self.bot.say("``Luigi``\nI am Luigi, Number #1! This game runs the same as Luigi's Poker in Super Mario 64 DS Minigames.")
+        await self.bot.say("The Card's worth is dependant from their number. \nFor example, a 6 has greater worth than a 5, a 5 has greater worth than a 4, etc, etc. ")
+        await self.bot.say("The following table represents the winning matches. How close from the top represents their worth.\nFor example, A Full House is greater than Three of a Kind, but less than a Four of a Kind.")
+        flush =     "Flush:           {}{}{}{}{}".format(":six:",":six:",":six:",":six:",":six:")
+        fourKind =  "Four of a Kind:  {}{}{}{}".format(":six:",":six:",":six:",":six:")
+        fullHouse = "Full House:      {}{}{}{}{}".format(":six:",":six:",":six:",":three:",":three:")
+        threeKind = "Three of a Kind: {}{}{}".format(":six:",":six:",":six:")
+        twoP =      "Two Pairs:       {}{}{}{}".format(":six:",":six:",":one:",":one:")
+        oneP =      "Pair:            {}{}".format(":six:",":six:")
+        await self.bot.say("{}\n{}\n{}\n{}\n{}\n{}".format(flush,fourKind,fullHouse,threeKind,twoP,oneP))
+
+    @commands.command()
     async def deck(self):
-        """This does stuff!"""
+        """Starts the Game! Use !deckHelp for game help"""
         if (self.__inGame == False):
-            #Your code will go here
             await self.bot.say("Starting Deck...")
             self.__inGame = True
             self.pDeck.newDeck()
             self.dDeck.newDeck()
-            await self.bot.say("Dealer's Deck: {}{}{}{}{}".format(":white_medium_small_square:",":white_medium_small_square:",":white_medium_small_square:",
-                ":white_medium_small_square:",":white_medium_small_square:"))
-            await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
-            await self.bot.say("{0}fold or {0}stay?".format(self.__prefix))
+        else:
+            await self.bot.say("You're already in a game...")
 
+        await self.bot.say("Dealer's Deck: {}{}{}{}{}".format(":white_medium_small_square:",":white_medium_small_square:",":white_medium_small_square:",
+            ":white_medium_small_square:",":white_medium_small_square:"))
+        await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
+        if (self.__hit):
+            await self.bot.say("Stay or Fold?")
+        else:
+            await self.bot.say("Stay, Hit, or Fold?")
 
-    @commands.command()
-    async def luigihelpme(self):
-        message = "``Luigi``\n Hello! I am Luigi, Number #1! I am the Card Dealer of this minigame, and I shall be going through the instructions of this game. Unlike popular Poker, my game is more simpler.\n Below this list are the winning games and rank:"
-        winning_ranks = "test";
-        message = message + winning_ranks
-        await self.bot.say(message)
-	
     @commands.command()
     async def hit(self, i):
         '''To indicate which card/s to trade, the first card is 1, second card is 2, etc Ex: [p]hit 2,4,5'''
-        if(self.__hit == False):
-            l = eval(i)
-            await self.bot.say("Swaping Cards...")
-            self.pDeck.swap(l)
-            await self.bot.say("Cards have been swapped.")
-            await self.bot.say("Dealer's Deck: {}{}{}{}{}".format(":white_medium_small_square:",":white_medium_small_square:",":white_medium_small_square:",
-                ":white_medium_small_square:",":white_medium_small_square:"))
-            await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
-            await self.bot.say("fold or stay?")
-            self.__hit = True
+        if(self.__inGame):
+            if(self.__hit == False):
+                await self.bot.say("Swaping Cards...")
+                self.pDeck.swap(i)
+                await self.bot.say("Cards have been swapped.")
+                await self.bot.say("Dealer's Deck: {}{}{}{}{}".format(":white_medium_small_square:",":white_medium_small_square:",":white_medium_small_square:",
+                    ":white_medium_small_square:",":white_medium_small_square:"))
+                await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
+                await self.bot.say("Stay or Fold?")
+                self.__hit = True
+            else:
+                await self.bot.say("You've already hit this round. You must Stay or Fold.")
         else:
-            await self.bot.say("You've already hit this round. You must fold or stay.")
+            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format('!'))
 
     @commands.command()
     async def fold(self):
@@ -213,103 +233,111 @@ class Mycog:
             await self.bot.say("Dealer's Deck: {}{}{}{}{}".format(self.dDeck.suit(0),self.dDeck.suit(1),self.dDeck.suit(2),self.dDeck.suit(3),self.dDeck.suit(4)))
             await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
             self.__inGame = False
+            self.__hit = False
         else:
-            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format(prefix))
+            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format('!'))
 
     @commands.command()
     async def stay(self):
+        say = ""
+        win = False
+        sameMove = False
+        tied = False
         if(self.__inGame == True):
-            await self.bot.say("You've Stayed.")
+            await self.bot.say("You've stayed.")
             if (flush(self.pDeck) != flush(self.dDeck)):
+                say = "a Flush"
                 if(flush(self.pDeck)):
-                    await self.bot.say("You Won! You got a Flush!")
-                elif (flush(self.dDeck)):
-                    await self.bot.say("You lost! The Dealer got a Flush!")
+                    win = True
             elif (flush(self.pDeck) and flush(self.dDeck)):
+                say = "Flush"
+                sameMove = True
                 if (self.pDeck.firstPair > self.dDeck.firstPair):
-                    await self.bot.say("You Won! Your Flush is greater than Dealer.")
-                elif(self.pDeck.firstPair < self.dDeck.firstPair):
-                    await self.bot.say("You Lost! Dealer's Flush is greater than yours.")
-                else:
-                    await self.bot.say("The Dealer and Player has Tied")
+                    win = True
+                elif(self.pDeck.firstPair == self.dDeck.firstPair):
+                    tied = True
             elif(fourKind(self.pDeck) != fourKind(self.dDeck)):
+                say = "a Four of a Kind"
                 if(fourKind(self.pDeck)):
-                    await self.bot.say("You Won! You got a Four of a Kind!")
-                elif (fourKind(self.dDeck)):
-                    await self.bot.say("You lost! The Dealer got a Four of a Kind")
+                    win = True
             elif (fourKind(self.pDeck) and fourKind(self.dDeck)):
+                say = "Four of a Kind"
+                sameMove = True
                 if (self.pDeck.firstPair > self.dDeck.firstPair):
-                    await self.bot.say("You Won! Your Four of a Kind is greater than Dealer.")
-                elif(self.pDeck.firstPair < self.dDeck.firstPair):
-                    await self.bot.say("You Lost! Dealer's Four of a Kind is greater than yours.")
-                else:
-                    await self.bot.say("The Dealer and Player has Tied.")
+                    win = True
+                elif(self.pDeck.firstPair == self.dDeck.firstPair):
+                    tied = True
             elif(fullHouse(self.pDeck) != fullHouse(self.dDeck)):
+                say = "a Full House"
                 if(fullHouse(self.pDeck)):
-                    await self.bot.say("You Won! You got a Full House!")
-                elif (fullHouse(self.dDeck)):
-                    await self.bot.say("You lost! The Dealer got a Full House")
+                    win = True
             elif (fullHouse(self.pDeck) and fullHouse(self.dDeck)):
+                say = "Full House"
+                sameMove = True
                 if (self.pDeck.firstPair > self.dDeck.firstPair):
-                    await self.bot.say("You Won! Your Full House is greater than Dealer.")
-                elif(self.pDeck.firstPair < self.dDeck.firstPair):
-                    await self.bot.say("You Lost! Dealer's Full House is greater than yours.")
+                    win = True
                 elif (self.pDeck.secondPair > self.dDeck.secondPair):
-                    await self.bot.say("You Won! Your Full House is greater than Dealer.")
-                elif(self.pDeck.secondPair < self.dDeck.secondPair):
-                    await self.bot.say("You Lost! Dealer's Full House is greater than yours.")
-                else:
-                    await self.bot.say("The Dealer and Player has Tied.")
+                    win = True
+                elif(self.pDeck.firstPair == self.dDeck.firstPair and self.pDeck.secondPair == self.dDeck.secondPair):
+                    tied = True
             elif(threeKind(self.pDeck) != threeKind(self.dDeck)):
+                say = "a Three of a Kind"
                 if(threeKind(self.pDeck)):
-                    await self.bot.say("You Won! You got a Three of a Kind!")
-                elif (threeKind(self.dDeck)):
-                    await self.bot.say("You lost! The Dealer got a Three of a Kind")
+                    win = True
             elif (threeKind(self.pDeck) and threeKind(self.dDeck)):
+                say = "Three of a Kind"
+                sameMove = True
                 if (self.pDeck.firstPair > self.dDeck.firstPair):
-                    await self.bot.say("You Won! Your Three of a Kind is greater than Dealer.")
-                elif(self.pDeck.firstPair < self.dDeck.firstPair):
-                    await self.bot.say("You Lost! Dealer's Three of a Kind is greater than yours.")
-                else:
-                    await self.bot.say("The Dealer and Player has Tied.")
+                    win = True
+                elif(self.pDeck.firstPair == self.dDeck.firstPair):
+                    tied = True
             elif(twoPair(self.pDeck) != twoPair(self.dDeck)):
+                say = "Two Pairs"
                 if(twoPair(self.pDeck)):
-                    await self.bot.say("You Won! You got Two Pairs!")
-                elif (twoPair(self.dDeck)):
-                    await self.bot.say("You lost! The Dealer got Two Pairs!")
+                    win = True
             elif (twoPair(self.pDeck) and twoPair(self.dDeck)):
+                say = "Two Pairs"
+                sameMove = True
                 if (self.pDeck.firstPair > self.dDeck.firstPair):
-                    await self.bot.say("You Won! Your Two Pairs is greater than Dealer.")
-                elif(self.pDeck.firstPair < self.dDeck.firstPair):
-                    await self.bot.say("You Lost! Dealer's Two Pairs is greater than yours.")
+                    win = True
                 elif (self.pDeck.secondPair > self.dDeck.secondPair):
-                    await self.bot.say("You Won! Your Two Pairs is greater than Dealer.")
-                elif(self.pDeck.secondPair < self.dDeck.secondPair):
-                    await self.bot.say("You Lost! Dealer's Two Pairs is greater than yours.")
-                else:
-                    await self.bot.say("The Dealer and Player has Tied.")
+                    win = True
+                elif(self.pDeck.firstPair == self.dDeck.firstPair and self.pDeck.secondPair == self.dDeck.secondPair):
+                    tied = True
             elif(onePair(self.pDeck) != onePair(self.dDeck)):
+                say = "a Pair"
                 if(onePair(self.pDeck)):
-                    await self.bot.say("You Won! You got a Pair!")
-                elif (onePair(self.dDeck)):
-                    await self.bot.say("You lost! The Dealer got a Pair!")
+                    win = True
             elif (onePair(self.pDeck) and onePair(self.dDeck)):
+                say = "Pair"
+                sameMove = True
                 if (self.pDeck.firstPair > self.dDeck.firstPair):
-                    await self.bot.say("You Won! Your Pair is greater than Dealer.")
-                elif(self.pDeck.firstPair < self.dDeck.firstPair):
-                    await self.bot.say("You Lost! Dealer's Pair is greater than yours.")
-                else:
-                    await self.bot.say("The Dealer and Player has Tied.")
+                    win = True
+                elif(self.pDeck.firstPair == self.dDeck.firstPair):
+                    tied = True
             else:
-                await self.bot.say("Tie! Both the Dealer and the Player has no Match.")
+                tied = True
+
+            if(sameMove):
+                if(win):
+                    await self.bot.say("You won! Your {} is greater than Dealer's {}!".format(say,say))
+                else:
+                    await self.bot.say("You lost! The Dealer's {} is greater than your {}!".format(say,say))
+            elif(win):
+                await self.bot.say("You won! You got {}!".format(say))
+            elif(tied):
+                await self.bot.say("Both the Dealer and the Player have Tied")
+            else:
+                await self.bot.say("You lost! The Dealer got {}".format(say))
 
             await self.bot.say("Dealer's Deck: {}{}{}{}{}".format(self.dDeck.suit(0),self.dDeck.suit(1),self.dDeck.suit(2),self.dDeck.suit(3),self.dDeck.suit(4)))
             await self.bot.say("Your Deck: {}{}{}{}{}".format(self.pDeck.suit(0),self.pDeck.suit(1),self.pDeck.suit(2),self.pDeck.suit(3),self.pDeck.suit(4)))
             self.__inGame = False
             self.__hit = False
         else:
-            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format(self.__prefix))
+            await self.bot.say("There isn't a game going on. Use {}deck to start a game.".format('!'))
 
 
 def setup(bot):
-    bot.add_cog(Mycog(bot))
+	n = LuigiPoker(bot)
+    bot.add_cog(n)

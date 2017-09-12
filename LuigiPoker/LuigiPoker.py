@@ -166,7 +166,7 @@ def flush(deck):
 ''' Below This Line is Discord Bot Time '''
 
 class LuigiPoker:
-    """My custom cog that does stuff!"""
+    """This Cog is used to play the Luigi Poker Minigame from New Super Mario Brothers. use [p]LuigiHelpMe if you want to learn more about the game"""
 
     def __init__(self, bot):
         self.bot = bot

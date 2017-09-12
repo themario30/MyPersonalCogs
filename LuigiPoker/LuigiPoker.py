@@ -162,7 +162,7 @@ class Mycog:
 
     def __init__(self, bot):
         self.bot = bot
-		self.__prefix = '[p]'
+        self.__prefix = "(p)"
         self.__inGame = False
         self.__hit = False
         self.pDeck = Deck()

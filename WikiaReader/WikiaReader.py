@@ -9,7 +9,6 @@ class WikiaReader:
         self.__wiki = "Zelda"
         self.__log = open("test.txt", 'w')
         self.__query = list()
-        self.WikiQuery("Meat")
         
      
     def __say(self, message):

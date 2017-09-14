@@ -11,7 +11,7 @@ class WarframeReader:
      
     def __say(self, message):
        self.bot.say
-        print()
+       # print()
         self.__log.write(message + "\n")
         
     @commands.command    

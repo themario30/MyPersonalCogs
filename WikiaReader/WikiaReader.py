@@ -10,8 +10,9 @@ class WikiaReader:
         self.__wiki = "Zelda"
         self.__log = open("test.txt", 'w')
         self.__query = list()
-        
-    def __query(self, term):
+    
+    @Wikia.command()    
+    async def query(self, term):
         query = wikia.search(self.__wiki, message, results=50)
         queryResults = "We found " + str(len(query)) + " results. Here are the top 10 results!\n"
         await self.bot.say(queryResults)

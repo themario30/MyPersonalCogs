@@ -23,7 +23,7 @@ class WikiaReader:
         query = wikia.search(self.__wiki, message, results=50)
         #log = open("test.txt", 'w')
         queryResults = "We found " + str(len(query)) + " results. Here are the top 10 results!\n"
-        self.__say(queryResults)
+        await self.bot.say(queryResults)
         
         for i in range(0,10):
             i = i + 1

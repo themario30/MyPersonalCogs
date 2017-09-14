@@ -10,12 +10,12 @@ class WikiaReader:
         self.__log = open("test.txt", 'w')
         self.__query = list()
         
-     
+    ''' 
     def __say(self, message):
        message = str(message)
        await self.bot.say(message)
        #print()
-       self.__log.write(message + "\n")
+       self.__log.write(message + "\n")'''
         
     @commands.command()   
     async def WikiQuery(self, message):

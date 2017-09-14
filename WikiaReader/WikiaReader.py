@@ -1,5 +1,6 @@
 import discord
 import wikia
+from discord.ext import commands
 
 class WarframeReader:
     

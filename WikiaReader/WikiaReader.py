@@ -12,7 +12,7 @@ class WikiaReader:
         
      
     def __say(self, message):
-       self.bot.say(message)
+       await self.bot.say(message)
        #print()
        self.__log.write(message + "\n")
         
@@ -26,7 +26,7 @@ class WikiaReader:
         
         for i in range(0,10):
             i = i + 1
-            self.bot.say(str(i) + " " +query[i])
+            await self.bot.say(str(i) + " " +query[i])
     
     
     

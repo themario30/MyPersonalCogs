@@ -31,4 +31,4 @@ class WarframeReader:
     
 def setup(bot):
    n = WarframeReader(bot)
-   n.search("Gourmet Meat")    
+   bot.add_cog(n)

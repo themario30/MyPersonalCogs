@@ -2,14 +2,14 @@ import discord
 import wikia
 from discord.ext import commands
 
-class WarframeReader:
-    
+class WikiaReader:
     
     def __init__(self, bot):
         self.bot = bot
         self.__wiki = "Zelda"
         self.__log = open("test.txt", 'w')
         self.__query = list()
+        self.WikiQuery("Meat")
         
      
     def __say(self, message):
@@ -17,8 +17,9 @@ class WarframeReader:
        #print()
        self.__log.write(message + "\n")
         
-    @commands.command    
-    async def WikiSearch(self, message):
+    @commands.command()   
+    async def WikiQuery(self, message):
+        '''This will help you do a query Search of the wiki'''
         query = wikia.search(self.__wiki, message, results=50)
         #log = open("test.txt", 'w')
         queryResults = "We found " + str(len(query)) + " results. Here are the top 10 results!\n"
@@ -31,5 +32,5 @@ class WarframeReader:
     
     
 def setup(bot):
-   n = WarframeReader(bot)
+   n = WikiaReader(bot)
    bot.add_cog(n)

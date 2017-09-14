@@ -1,0 +1,16 @@
+{
+    "AUTHOR" : "MarioTheGamer30",
+    "DESCRIPTION" : "A cog using the 'wikia' library to easily read Wikia's. It gives you a basic description, and it doesn't give you a full description like other wikia readers as this one is very simple.",
+    "INSTALL_MSG" : "Congratulations on installing Wikia Reader. A full list of commands can appear if you say [p]WikiaHelp",
+    "NAME" : "WikiaReaer",
+    "REQUIREMENTS" : [
+        "wikia"
+    ],
+    "SHORT" : "A Cog for reading other Wikia's.",
+    "TAGS" : [
+        "wikiareader",
+        "wikia",
+        "reader",
+        "cool"
+    ]
+}

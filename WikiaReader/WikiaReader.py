@@ -10,6 +10,7 @@ class WarframeReader:
         self.__wiki = "Zelda"
         self.__log = open("test.txt", 'w')
         self.__query = list()
+        
      
     def __say(self, message):
        self.bot.say(message)
@@ -17,15 +18,15 @@ class WarframeReader:
        self.__log.write(message + "\n")
         
     @commands.command    
-    async def WikiSearch(self, term):
-        query = wikia.search(self.__wiki, term, results=50)
+    async def WikiSearch(self, message):
+        query = wikia.search(self.__wiki, message, results=50)
         #log = open("test.txt", 'w')
         queryResults = "We found " + str(len(query)) + " results. Here are the top 10 results!\n"
         self.__say(queryResults)
         
         for i in range(0,10):
             i = i + 1
-            self.__say(str(i) + " " +query[i])
+            self.bot.say(str(i) + " " +query[i])
     
     
     

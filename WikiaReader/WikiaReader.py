@@ -12,6 +12,7 @@ class WikiaReader:
         
      
     def __say(self, message):
+       message = str(message)
        await self.bot.say(message)
        #print()
        self.__log.write(message + "\n")

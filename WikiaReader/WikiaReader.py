@@ -12,12 +12,12 @@ class WarframeReader:
         self.__query = list()
      
     def __say(self, message):
-       self.bot.say
+       self.bot.say(message)
        #print()
        self.__log.write(message + "\n")
         
     @commands.command    
-    async def search(self, term):
+    async def WikiSearch(self, term):
         query = wikia.search(self.__wiki, term, results=50)
         #log = open("test.txt", 'w')
         queryResults = "We found " + str(len(query)) + " results. Here are the top 10 results!\n"

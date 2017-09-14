@@ -1,3 +1,4 @@
+import discord
 import wikia
 
 class WarframeReader:
